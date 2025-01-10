@@ -1,170 +1,142 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #000;
-    color: #fff;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .container {
-    margin: 20px auto;
-    max-width: 600px;
-  }
-  
-  h1 {
-    font-size: 2em;
-  }
-  
-  #status {
-    margin-bottom: 20px;
-  }
-  
-  .question-container {
-    display: none; /* Hide by default */
-    margin: 20px 0;
-  }
-  
-  #multiple-choice-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  .option {
-    width: 80px;
-    height: 80px;
-    font-size: 20px;
-    color: #fff;
-    background-color: #444;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-  }
-  
-  .option:hover {
-    background-color: #666;
-    transform: scale(1.1);
-  }
-  
-  .option.correct {
-    background-color: green;
-    color: #fff;
-  }
-  
-  .option.incorrect {
-    background-color: red;
-    color: #fff;
-  }
-  
-  .action-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    margin: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  #timer {
-    font-size: 1.5em;
-    margin-top: 20px;
-  }
-  
-  #versus-controls {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    color: white;
-    text-align: left;
-  }
-  
-  #versus-controls input {
-    width: 50px;
-    font-size: 14px;
-    margin-left: 10px;
-  }
-  
-  #scores {
-    margin-top: 10px;
-  }
-  
-  #scores p {
-    margin: 5px 0;
-    font-size: 18px;
-  }
-  
-  #toss-up-answer {
-    width: 80%; /* Adjust width */
-    padding: 10px; /* Add padding */
-    font-size: 16px; /* Adjust font size */
-    border: 2px solid #007bff; /* Add border with custom color */
-    border-radius: 5px; /* Round corners */
-    background-color: #cccccc; /* Light background color */
-    color: #333; /* Text color */
-    outline: none; /* Remove default focus outline */
-    transition: border-color 0.3s ease; /* Smooth hover effect */
-  }
-  
-  #toss-up-answer:focus {
-    border-color: #0056b3; /* Change border color on focus */
-    background-color: #e8f0fe; /* Slightly change background on focus */
-  }
-  
-/* General button styling for Submit Answer, Buzz In, and Start */
+  font-family: Arial, sans-serif;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+#status {
+  margin-bottom: 20px;
+}
+
+.question-container {
+  display: none;
+  margin: 20px 0;
+}
+
+#multiple-choice-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.option {
+  width: 80px;
+  height: 80px;
+  font-size: 20px;
+  color: #fff;
+  background-color: #444;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.option:hover {
+  background-color: #666;
+  transform: scale(1.1);
+}
+
+.option.correct {
+  background-color: green;
+  color: #fff;
+}
+
+.option.incorrect {
+  background-color: red;
+  color: #fff;
+}
+
+.action-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#timer {
+  font-size: 1.5em;
+  margin-top: 20px;
+}
+
+#versus-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+  text-align: left;
+}
+
+#versus-controls input {
+  width: 50px;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+#scores {
+  margin-top: 10px;
+}
+
+#scores p {
+  margin: 5px 0;
+  font-size: 18px;
+}
+
+#toss-up-answer {
+  width: 80%;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #007bff;
+  border-radius: 5px;
+  background-color: #cccccc;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+#toss-up-answer:focus {
+  border-color: #0056b3;
+  background-color: #e8f0fe;
+}
+
 #submit-answer,
 #buzz-button,
 #start-button {
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #007bff; /* Default button color */
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease; /* Smooth effects */
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-/* Hover effect: Enlarge slightly */
 #submit-answer:hover,
 #buzz-button:hover,
 #start-button:hover {
-  transform: scale(1.1); /* Enlarge by 10% */
+  transform: scale(1.1);
 }
 
-/* Active (clicked) effect: Brighten */
 #submit-answer:active,
 #buzz-button:active,
 #start-button:active {
-  background-color: #0056b3; /* Slightly brighter color */
-  transform: scale(1.05); /* Slightly less enlarged */
-}
-
-/* Default styling for the text box */
-#toss-up-answer {
-  width: 80%;
-  padding: 10px;
-  font-size: 16px;
-  border: 2px solid #007bff; /* Default border color */
-  border-radius: 5px;
-  background-color: #f0f0f0; /* Default background color */
-  color: #333; /* Default text color */
-  outline: none;
-  transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
-}
-
-/* Green background for correct answers */
-#toss-up-answer.correct {
-  border-color: #28a745; /* Green border */
-  background-color: #d4edda; /* Light green background */
-}
-
-/* Red background for incorrect answers */
-#toss-up-answer.incorrect {
-  border-color: #dc3545; /* Red border */
-  background-color: #f8d7da; /* Light red background */
+  background-color: #0056b3;
+  transform: scale(1.05);
 }
