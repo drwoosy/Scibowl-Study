@@ -1,0 +1,10 @@
+What is the capital of France?|Paris|London|Berlin|Rome|W
+What is the chemical symbol for water?|H2O|O2|CO2|HO2|W
+What planet is known as the Red Planet?|Venus|Mars|Jupiter|Saturn|X
+What is the powerhouse of the cell?|Nucleus|Ribosome|Chloroplast|Mitochondria|Z
+What gas do plants use for photosynthesis?|Oxygen|Nitrogen|Carbon Dioxide|Hydrogen|Y
+What is the hardest natural substance?|Gold|Iron|Diamond|Platinum|Y
+What is the capital of Germany?|Berlin|Paris|Madrid|Rome|W
+Which element has atomic number 1?|Helium|Hydrogen|Lithium|Oxygen|X
+What is 9 + 10?|19|21|18|20|W
+What organ filters blood?|Heart|Liver|Kidney|Lungs|Y

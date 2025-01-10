@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Science Bowl Practice - Question Types</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Science Bowl Practice</h1>
+    <p id="status">Click "Start" to begin!</p>
+    <div id="multiple-choice-container" class="question-container">
+      <button id="option-w" class="option">W</button>
+      <button id="option-x" class="option">X</button>
+      <button id="option-y" class="option">Y</button>
+      <button id="option-z" class="option">Z</button>
+    </div>
+    <div id="toss-up-container" class="question-container">
+      <input type="text" id="toss-up-answer" placeholder="Type your answer here" />
+      <button id="submit-answer" class="action-button">Submit Answer</button>
+    </div>
+    <button id="buzz-button" class="action-button">Buzz In</button>
+    <p id="timer">Timer: --</p>
+    <button id="start-button" class="action-button">Start</button>
+    <div id="versus-controls">
+      <label for="set-timer">Set Timer (Seconds):</label>
+      <input type="number" id="set-timer" value="10" min="1" />
+      <div id="scores">
+        <p>User: <span id="user-score">0</span></p>
+        <p>Opponent: <span id="opponent-score">0</span></p>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
