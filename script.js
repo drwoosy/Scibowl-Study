@@ -172,7 +172,7 @@ function submitTossUp() {
   if (userAnswer === currentQuestion.answer) {
     document.getElementById("status").textContent = "Correct!";
     inputBox.classList.add("correct");
-    userScore += isBonusQuestion ? 10 : 4;
+    userScore += isBonusQuestion ? 10 : 1;
     isBonusQuestion = !isBonusQuestion;
     const utterance = new SpeechSynthesisUtterance("Correct");
     playSpeech(utterance);
@@ -195,7 +195,7 @@ document.querySelectorAll(".option").forEach((btn) =>
     if (correct) {
       e.target.classList.add("correct");
       document.getElementById("status").textContent = "Correct!";
-      userScore += isBonusQuestion ? 10 : 4;
+      userScore += isBonusQuestion ? 10 : 1;
       isBonusQuestion = !isBonusQuestion;
       const utterance = new SpeechSynthesisUtterance("Correct");
       playSpeech(utterance);
