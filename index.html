@@ -9,7 +9,8 @@
 <body>
   <div class="container">
     <h1>Science Bowl Practice</h1>
-    <!-- New subject selection UI -->
+    
+    <!-- Subject Selection UI -->
     <div id="subject-select">
       <h2>Select Subjects</h2>
       <label><input type="checkbox" value="PHYSICS" checked> Physics</label>
@@ -21,6 +22,20 @@
       <label><input type="checkbox" value="ASTRONOMY" checked> Astronomy</label>
       <label><input type="checkbox" value="MATH" checked> Math</label>
       <label><input type="checkbox" value="COMPUTER SCIENCE" checked> Computer Science</label>
+    </div>
+
+    <!-- Question Set Selection UI -->
+    <div id="set-select-container">
+      <h2>Select Question Set</h2>
+      <label for="set-select">Question Set:</label>
+      <select id="set-select">
+        <option value="All">All</option>
+        <option value="Official">Official</option>
+        <option value="CSUB">CSUB</option>
+        <option value="05Nats">05Nats</option>
+        <option value="98Nats">98Nats</option>
+        <option value="16Exchange">16Exchange</option>
+      </select>
     </div>
 
     <p id="status">Loading questions...</p>
@@ -38,9 +53,8 @@
     <button id="buzz-button" class="action-button">Buzz In</button>
     <p id="timer">Timer: --</p>
     <button id="start-button" class="action-button">Start</button>
+    <!-- Removed the set-timer input; timer is now fixed at 5 seconds -->
     <div id="versus-controls">
-      <label for="set-timer">Set Timer (Seconds):</label>
-      <input type="number" id="set-timer" value="10" min="1" />
       <div id="scores">
         <p>User: <span id="user-score">0</span></p>
         <p>Opponent: <span id="opponent-score">0</span></p>
