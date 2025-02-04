@@ -1,44 +1,9 @@
-const questions = [
-  {
-    type: "multiple",
-    subject: "Biology",
-    question: "What is the primary structural component of plant cell walls?",
-    options: { W: "Chitin", X: "Cellulose", Y: "Lignin", Z: "Hemicellulose" },
-    answer: "X",
-    bonus: {
-      type: "toss-up",
-      subject: "Biology",
-      question: "What is the main function of mitochondria in cells?",
-      answer: "Energy production",
-    },
-  },
-  {
-    type: "toss-up",
-    subject: "Physics",
-    question: "What is the term for the quantum mechanical property of electrons that leads to the Pauli exclusion principle?",
-    answer: "Spin",
-    bonus: {
-      type: "multiple",
-      subject: "Physics",
-      question: "Which fundamental force is responsible for the structure of atoms?",
-      options: { W: "Gravity", X: "Electromagnetic", Y: "Weak Nuclear", Z: "Strong Nuclear" },
-      answer: "X",
-    },
-  },
-  {
-    type: "multiple",
-    subject: "Chemistry",
-    question: "Which of the following elements has the highest electronegativity?",
-    options: { W: "Oxygen", X: "Fluorine", Y: "Chlorine", Z: "Nitrogen" },
-    answer: "X",
-    bonus: {
-      type: "toss-up",
-      subject: "Chemistry",
-      question: "What is the atomic number of fluorine?",
-      answer: "9",
-    },
-  },
-];
+// (Optional) Local questions array for fallback or testing.
+// const questions = [
+//   { ... },
+//   { ... },
+//   { ... },
+// ];
 
 let currentQuestion = null;
 let timer = null;
@@ -56,14 +21,50 @@ document.getElementById("submit-answer").addEventListener("click", submitTossUp)
 function startGame() {
   stopSpeech();
   resetUI();
-  if (isBonusQuestion && currentQuestion.bonus) {
+  // If a bonus is pending from the previous question, use it.
+  if (isBonusQuestion && currentQuestion && currentQuestion.bonus) {
     currentQuestion = currentQuestion.bonus;
+    presentQuestion();
   } else {
-    currentQuestion = questions[Math.floor(Math.random() * questions.length)];
-    isBonusQuestion = false;
+    // Otherwise, fetch a new question from the API.
+    fetchQuestionFromAPI();
   }
-  countdown = parseInt(document.getElementById("set-timer").value, 10) || 10;
-  presentQuestion();
+}
+
+// New function to fetch a random question from the SciBowlDB API.
+function fetchQuestionFromAPI() {
+  fetch('https://scibowldb.com/api/questions/random')
+    .then(response => response.json())
+    .then(data => {
+      let apiData;
+      // The API might return the question inside a "questions" array or as a single object.
+      if (data.questions) {
+        apiData = data.questions[0];
+      } else {
+        apiData = data;
+      }
+      // Transform the API question into the format your code expects.
+      currentQuestion = {
+        type: "toss-up",  // API questions are short answer; adjust if needed.
+        subject: apiData.category, // API "category" becomes your "subject"
+        question: apiData.tossup_question,
+        answer: apiData.tossup_answer,
+        bonus: {
+          type: "toss-up",
+          subject: apiData.category,
+          question: apiData.bonus_question,
+          answer: apiData.bonus_answer,
+        }
+      };
+      isBonusQuestion = false; // Reset bonus flag when a new question is fetched.
+      // Set timer based on user input (or default to 10 seconds)
+      countdown = parseInt(document.getElementById("set-timer").value, 10) || 10;
+      presentQuestion();
+    })
+    .catch(error => {
+      console.error('Error fetching question:', error);
+      document.getElementById("status").textContent = "Error fetching question from API.";
+    });
 }
 
 function presentQuestion() {
@@ -83,6 +84,7 @@ function presentQuestion() {
     };
     playSpeech(utterance);
   } else if (type === "toss-up") {
+    // For API questions we expect toss-up type.
     document.getElementById("multiple-choice-container").style.display = "none";
     document.getElementById("toss-up-container").style.display = "block";
     const utterance = new SpeechSynthesisUtterance(`${prefix}Short answer, ${subject}, ${question}.`);
