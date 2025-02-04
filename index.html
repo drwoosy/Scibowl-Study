@@ -1,15 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Science Bowl Practice - Question Types</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="container">
     <h1>Science Bowl Practice</h1>
-    <p id="status">Click "Start" to begin!</p>
+    <!-- New subject selection UI -->
+    <div id="subject-select">
+      <h2>Select Subjects</h2>
+      <label><input type="checkbox" value="PHYSICS" checked> Physics</label>
+      <label><input type="checkbox" value="BIOLOGY" checked> Biology</label>
+      <label><input type="checkbox" value="CHEMISTRY" checked> Chemistry</label>
+      <label><input type="checkbox" value="GENERAL SCIENCE" checked> General Science</label>
+      <label><input type="checkbox" value="ENERGY" checked> Energy</label>
+      <label><input type="checkbox" value="EARTH SCIENCE" checked> Earth Science</label>
+      <label><input type="checkbox" value="ASTRONOMY" checked> Astronomy</label>
+      <label><input type="checkbox" value="MATH" checked> Math</label>
+      <label><input type="checkbox" value="COMPUTER SCIENCE" checked> Computer Science</label>
+    </div>
+
+    <p id="status">Loading questions...</p>
+    
     <div id="multiple-choice-container" class="question-container">
       <button id="option-w" class="option">W</button>
       <button id="option-x" class="option">X</button>

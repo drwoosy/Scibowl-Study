@@ -1,14 +1,13 @@
 // Global variable to store questions loaded from the local JSON file
 let questions = [];
 
-// Load questions from questions.json when the page loads.
-// It doesn't matter if the JSON is minified (one line) or pretty printed.
+// Load questions from questions.json when the page loads
 fetch('questions.json')
   .then(response => {
     if (!response.ok) {
       throw new Error('Network response was not ok.');
     }
-    return response.json(); // This parses the JSON text into a JavaScript object
+    return response.json(); // Works with minified (one-line) JSON
   })
   .then(data => {
     questions = data.questions;
@@ -35,7 +34,7 @@ document.getElementById("submit-answer").addEventListener("click", submitTossUp)
 function startGame() {
   stopSpeech();
   resetUI();
-  // If a bonus question is pending from the previous question, use it.
+  // If a bonus question is pending, use it.
   if (isBonusQuestion && currentQuestion && currentQuestion.bonus) {
     currentQuestion = currentQuestion.bonus;
     presentQuestion();
@@ -44,9 +43,16 @@ function startGame() {
       document.getElementById("status").textContent = "No questions loaded.";
       return;
     }
-    // Choose a random question from the loaded questions.
-    let rawQuestion = questions[Math.floor(Math.random() * questions.length)];
-    // Map the raw question from the JSON to our game’s expected format.
+    // Filter questions based on selected subjects from the UI.
+    const selectedSubjects = Array.from(document.querySelectorAll('#subject-select input[type="checkbox"]:checked'))
+                              .map(el => el.value);
+    const filteredQuestions = questions.filter(q => selectedSubjects.includes(q.category));
+    if (filteredQuestions.length === 0) {
+      document.getElementById("status").textContent = "No questions available for the selected subjects.";
+      return;
+    }
+    let rawQuestion = filteredQuestions[Math.floor(Math.random() * filteredQuestions.length)];
+    // Map the raw JSON question into our expected format.
     currentQuestion = mapQuestion(rawQuestion);
     isBonusQuestion = false;
     countdown = parseInt(document.getElementById("set-timer").value, 10) || 10;
@@ -54,33 +60,63 @@ function startGame() {
   }
 }
 
-// Mapping function to convert a raw JSON question from SciBowlDB into our format.
+// Mapping function: Determines whether the question is multiple choice or toss-up.
 function mapQuestion(raw) {
-  return {
-    // For simplicity, we assume all questions are toss-ups.
-    type: "toss-up",
-    subject: raw.category,
-    question: raw.tossup_question,
-    answer: raw.tossup_answer,
-    bonus: {
+  if (raw.tossup_format && raw.tossup_format.toLowerCase().includes("multiple")) {
+    // Multiple Choice Question: Split the tossup_question into a prompt and options.
+    const parts = raw.tossup_question.split("\n");
+    const prompt = parts[0];
+    let options = {};
+    for (let i = 1; i < parts.length; i++) {
+      const match = parts[i].match(/^([A-Z])\)\s*(.*)/);
+      if (match) {
+        const letter = match[1];
+        const text = match[2];
+        options[letter] = text;
+      }
+    }
+    // Extract just the letter from the tossup_answer (e.g., "W) BASIC" → "W")
+    const answerLetter = raw.tossup_answer.trim()[0];
+    return {
+      type: "multiple",
+      subject: raw.category,
+      question: prompt,
+      answer: answerLetter,
+      options: options,
+      bonus: {
+        type: "toss-up",
+        subject: raw.category,
+        question: raw.bonus_question,
+        answer: raw.bonus_answer,
+      }
+    };
+  } else {
+    // Short Answer / Toss-up Question
+    return {
       type: "toss-up",
       subject: raw.category,
-      question: raw.bonus_question,
-      answer: raw.bonus_answer,
-    }
-  };
+      question: raw.tossup_question,
+      answer: raw.tossup_answer,
+      bonus: {
+        type: "toss-up",
+        subject: raw.category,
+        question: raw.bonus_question,
+        answer: raw.bonus_answer,
+      }
+    };
+  }
 }
 
 function presentQuestion() {
   const { type, subject, question, options } = currentQuestion;
   const prefix = isBonusQuestion ? "Bonus, " : "";
-
   if (type === "multiple") {
-    // If you have multiple-choice questions with options, show the options container.
+    // Display multiple choice UI.
     document.getElementById("multiple-choice-container").style.display = "flex";
     document.getElementById("toss-up-container").style.display = "none";
     const utterance = new SpeechSynthesisUtterance(
-      `${prefix}Multiple choice, ${subject}, ${question}. W (${options.W}), X (${options.X}), Y (${options.Y}), Z (${options.Z}).`
+      `${prefix}Multiple choice, ${subject}, ${question}. ` +
+      `W (${options.W}), X (${options.X}), Y (${options.Y}), Z (${options.Z}).`
     );
     utterance.onend = () => {
       speechActive = false;
@@ -89,7 +125,7 @@ function presentQuestion() {
     };
     playSpeech(utterance);
   } else if (type === "toss-up") {
-    // For toss-up questions, show the input container.
+    // Display toss-up UI.
     document.getElementById("multiple-choice-container").style.display = "none";
     document.getElementById("toss-up-container").style.display = "block";
     const utterance = new SpeechSynthesisUtterance(`${prefix}Short answer, ${subject}, ${question}.`);
